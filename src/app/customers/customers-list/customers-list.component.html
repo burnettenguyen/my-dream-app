@@ -1,0 +1,41 @@
+
+<filter-textbox (changed)="filter($event)"></filter-textbox>
+<br />
+<br />
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th (click)="sort('name')">Name</th>
+      <th (click)="sort('city')">City</th>
+      <th (click)="sort('orderTotal')">Order Total</th>
+    </tr>
+  </thead>
+  <!-- filteredCustomers is an array in which ICustomer is passed through -->
+    <!--This row <tr> will loop through filteredCustomers array for the data binding  -->
+  <tr *ngFor="let cust of filteredCustomers">
+    <td>
+      <!--Creating a link so when customer's name is clicked, it will route them to specific order -->
+      <a [routerLink]="['/orders', cust.id]">
+                <!-- taking variable of 'cust' and binding to value attached to 'name' in the interface -->
+                <!--  Uppercase pipe makes sure data entered starts with uppercase letter -->
+        {{ cust.name | capitalize }}
+      </a>
+    </td>
+    <td>{{ cust.city }}</td>
+    <td>{{ cust.orderTotal | currency:currencyCode:'symbol' }}</td>
+  </tr>
+            <!-- *ngIf will only show data if it's there -->
+  <tr *ngIf="filteredCustomers && filteredCustomers.length">
+    <td colspan="2">&nbsp;</td>
+    <td>
+        <!-- Property is stated in the component's class along with function to add total  -->
+      {{ customersOrderTotal | currency:currencyCode:'symbol'  }}
+    </td>
+  </tr>
+        <!--  Only display message if there are NO customers sorted or array -->
+  <tr *ngIf="!filteredCustomers || !filteredCustomers.length">
+    <td colspan="4">No customers found</td>
+  </tr>
+</table>
+Number of Customers: {{ filteredCustomers.length }}
+<br />
