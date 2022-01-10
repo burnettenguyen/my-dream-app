@@ -21,6 +21,7 @@ export class DataService {
   }
 
   getCustomer(id: number) : Observable<ICustomer> {
+    // @ts-ignore
     return this.http.get<ICustomer[]>(this.baseURL + 'customers.json')
       .pipe(
         map(customers => {
